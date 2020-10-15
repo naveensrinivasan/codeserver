@@ -1,0 +1,40 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: code-server-gateway
+  namespace: naveen
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: code-server
+  namespace: naveen
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - code-server-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /code/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: code-server
+            port:
+              number: 8080
+      timeout: 300s
+---
+

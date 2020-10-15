@@ -1,0 +1,3 @@
+name: developersetup
+runtime: nodejs
+description: a dev machine for developers

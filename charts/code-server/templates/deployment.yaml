@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-server
+  labels:
+    app: code-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-server
+  template:
+    metadata:
+      labels:
+        app: code-server
+    spec:
+      containers:
+        - name: code-server
+          image: codercom/code-server:latest
+          imagePullPolicy: IfNotPresent
+          args: ["--bind-addr", "0.0.0.0:8080", "--auth", "none"]
+          ports:
+            - containerPort: 8080
